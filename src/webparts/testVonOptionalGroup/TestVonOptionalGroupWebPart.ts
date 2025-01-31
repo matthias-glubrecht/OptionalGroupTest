@@ -24,7 +24,8 @@ export default class TestVonOptionalGroupWebPart extends BaseClientSideWebPart<I
         mitTaeterGeschimpft: false,
         taserEingesetzt: false,
         nameDesOpfers: '',
-        gradDerVertzungen: "nicht so schlimm" 
+        nameDesTaeters: '',
+        gradDerVertzungen: 'nicht so schlimm'
       }
     );
 

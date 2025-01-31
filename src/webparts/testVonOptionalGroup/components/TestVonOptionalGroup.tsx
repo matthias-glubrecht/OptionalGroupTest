@@ -1,7 +1,7 @@
+// tslint:disable max-line-length
 import * as React from 'react';
 import styles from './TestVonOptionalGroup.module.scss';
-import { ITestVonOptionalGroupProps } from './ITestVonOptionalGroupProps';
-import { escape } from '@microsoft/sp-lodash-subset';
+import { gradDerVertzungenValues as gradDerVerletzungenValues, ITestVonOptionalGroupProps } from './ITestVonOptionalGroupProps';
 import { ITestVonOptionalGroupState } from './ITestVonOptionalGroupState';
 import OptionalGroup from './OptionalGroup/OptionalGroup';
 
@@ -13,14 +13,10 @@ export default class TestVonOptionalGroup extends React.Component<ITestVonOption
       mitTaeterGeschimpft: props.mitTaeterGeschimpft,
       taserEingesetzt: props.taserEingesetzt,
       nameDesOpfers: props.nameDesOpfers,
-      gradDerVertzungen: props.gradDerVertzungen
+      nameDesTaeters: props.nameDesTaeters,
+      gradDerVerletzungen: props.gradDerVertzungen,
+      betroffenChecked: false
     };
-  }
-
-  protected optionalComponentChanged = (fieldName: string, visible: boolean): void => {
-    this.setState(
-      { ...this.state, [fieldName]: visible }
-    );
   }
 
   public render(): React.ReactElement<ITestVonOptionalGroupProps> {
@@ -30,20 +26,73 @@ export default class TestVonOptionalGroup extends React.Component<ITestVonOption
           <div className={styles.row}>
             <div className={styles.column}>
               <OptionalGroup fieldName='taserEingesetzt' label='Taser eingesetzt' visible={this.state.taserEingesetzt} visibilityChanged={this.optionalComponentChanged} >
-                <label>Name des Opfers</label><input value={this.state.nameDesOpfers} />
-                <br></br>
-                <label>Grad der Verletzungen</label> <input value={this.state.gradDerVertzungen} />
+                <p>
+                  <label>Name des Opfers</label>
+                  <input value={this.state.nameDesOpfers} onChange={this.inputChangedHandler('nameDesOpfers')} />
+                </p>
+                <p>
+                  <label>Grad der Verletzungen</label>
+                  <select value={this.state.gradDerVerletzungen} onChange={this.inputChangedHandler('gradDerVerletzungen')}>
+                    {gradDerVerletzungenValues.map((grad) => <option aria-selected={this.state.gradDerVerletzungen === 'grad'} key={grad} aria-label={grad} value={grad}>{grad}</option>)}
+                  </select>
+                </p>
               </OptionalGroup>
-              <br></br>
+              <hr />
               <OptionalGroup fieldName='mitTaeterGeschimpft' label='Mit Täter geschimpft' visible={this.state.mitTaeterGeschimpft} visibilityChanged={this.optionalComponentChanged} >
-                <label>Name des Täters</label><input value={this.state.nameDesOpfers} />
-                <br></br>
-                <label>Betroffen geguckt</label> <input value={this.state.gradDerVertzungen} />
+                <p>
+                  <label>Name des Täters</label>
+                  <input value={this.state.nameDesTaeters} onChange={this.inputChangedHandler('nameDesTaeters')}/>
+                </p>
+                <p>
+                  <label htmlFor='betroffenGeguckt'>Betroffen geguckt</label>
+                  <input
+                    type='checkbox'
+                    id='betroffenGeguckt'
+                    checked={this.state.betroffenChecked}
+                    aria-checked={this.state.betroffenChecked}
+                    aria-label='Betroffen geguckt'
+                    onChange={() => this.setState({ ...this.state, betroffenChecked: !this.state.betroffenChecked })}
+                  />
+                </p>
               </OptionalGroup>
+              <hr />
+              <p>
+              {this.state.taserEingesetzt &&
+                <div>{`Der Taser wurde eingesetzt gegen das Opfer '${this.state.nameDesOpfers}' und die Verletzungen waren ${this.state.gradDerVerletzungen}.`}</div>
+              }
+              </p>
+              <p>
+              {this.state.mitTaeterGeschimpft &&
+                <div>{`Mit dem Täter '${this.state.nameDesTaeters}' wurde geschimpft; er oder sie hat ${this.state.betroffenChecked ? '' : 'nicht'} betroffen geguckt.`}</div>
+              }
+              </p>
             </div>
           </div>
         </div>
       </div >
     );
   }
+
+  protected optionalComponentChanged = (fieldName: string, visible: boolean): void => {
+    this.setState(
+      { ...this.state, [fieldName]: visible }
+    );
+  }
+
+  protected inputChangedHandler = (fieldName: string): ((event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void) => {
+    const it: TestVonOptionalGroup = this;
+    return (event: React.ChangeEvent<HTMLInputElement>): void => {
+      it.setState({
+        ...it.state,
+        [fieldName]: event.target.value
+      });
+    };
+  }
+
+  protected nameDesOpfersChanged = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    this.setState(
+      { ...this.state, nameDesOpfers: event.target.value }
+    );
+  }
+
 }
