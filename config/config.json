@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "test-von-optional-group-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/testVonOptionalGroup/TestVonOptionalGroupWebPart.js",
+          "manifest": "./src/webparts/testVonOptionalGroup/TestVonOptionalGroupWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "TestVonOptionalGroupWebPartStrings": "lib/webparts/testVonOptionalGroup/loc/{locale}.js"
+  }
+}

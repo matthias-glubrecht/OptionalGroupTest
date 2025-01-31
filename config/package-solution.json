@@ -1,0 +1,13 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "optional-group-test-client-side-solution",
+    "id": "b6d46e2c-ee38-4422-bd6d-77722a89b2af",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true
+  },
+  "paths": {
+    "zippedPackage": "solution/optional-group-test.sppkg"
+  }
+}
