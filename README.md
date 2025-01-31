@@ -1,6 +1,6 @@
 ## optional-group-test
 
-This is where you include your WebPart documentation.
+Einfaches Beispiel für eine React-Komponente, die mehrere Controls zusammenfasst.
 
 ### Building the code
 
